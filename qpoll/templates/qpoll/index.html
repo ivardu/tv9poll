@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title%} Welcome - Tv9 Q&A {% endblock title %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content%}
+
+{% if question %}
+	<div class='p-3 container shadow-sm p-3 rounded' style='margin-top: 10px'> 
+		<table>
+			{% for obj in question %}
+				<label>Q{{forloop.counter}}. </label><a href="{% url 'qpoll:detail' obj.id %}">{{obj.question}} </a>
+				<a href="{% url 'qpoll:delete' obj.id %}"><img src="{% static 'tv9poll/del.png' %}" width="10" height="10"> </a><br>
+			{% endfor %}
+		</table>
+	</div>
+	<div class='p-3 container shadow-lg p-3 mb-5 bg-white rounded' style="margin-top:10px">
+		<form action="{% url 'qpoll:form' %}" method="post">
+			{% csrf_token %}
+			<h3>The Question you are looking for is not listed here..!! Enter your own question</h3>
+			{{ form|crispy }}
+			<button type="submit" class="btn btn-success">Submit</button>
+		</form>
+	</div>
+<!-- {% else %}
+<label>No Question to display</label>
+	<form action="{% url 'qpoll:qpoll' %}" method='post'>
+		{% csrf_token %}
+		{{ form.as_p }}
+	</form>
+{% endif %}  -->
+{% endblock %}
+
+

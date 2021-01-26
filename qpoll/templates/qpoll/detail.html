@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %} Question - Detail {% endblock title %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container shadow-lg p-5 mb-5 bg-white rounded" style="margin-top: 100px">
+<label class="h2">{{output.question}} <a class="h6" href="{% url 'qpoll:edit' output.id %}">
+	<img src="{% static 'tv9poll/edit.jpg' %}" width='20' height="20"></a></label>
+<div class="align-items-center">
+	{% if error_message %}<label class="bg-danger text-white" style="margin-left: 60px">{{error_message}}</label> {% endif %}
+</div>
+<form action="{% url 'qpoll:vote' output.id %}" method="post">
+{% csrf_token %}
+	<div class='align-items-center'>
+			{% for item in output.answer_set.all %}
+			<div class='form-check' style="margin-left: 70px">
+				<input type="radio" class='form-check-input' id='gridRadios1' name="option" value='Yes'/>
+				<label class='form-check-label' for='gridRadios1'>Yes</label>
+			</div>
+			<div class='form-check' style="margin-left: 70px">
+				<input type="radio" class='form-check-input' id='gridRadios2' name="option" value='No'/>
+				<label class='form-check-label' for='gridRadios2'>No</label>
+			</div>
+			{% endfor %}
+	</div>
+	<div class="form-check" style="margin-top: 10px;margin-left: 41px">
+		<input type="submit" class='btn btn-primary btn-lg' name="submit_button" value='Submit'>
+	</div>
+</form>
+</div>
+{% endblock %}
