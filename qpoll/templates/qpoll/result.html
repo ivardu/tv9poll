@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %} Poll - Result {% endblock title %}
+{% block content %}
+<div class='container shadow-lg bg-white p-5 mb-5 rounded' style="margin-top: 100px">
+{% if quest %}
+<h2>{{quest.question}}</h2>
+{% endif %}
+<div id='container' data-url="{% url 'qpoll:chart' quest.id %}"></div>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts.src.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+	$.ajax({
+		url: $("#container").attr('data-url'),
+		dataType: 'json',
+		success: function(data){
+			Highcharts.chart("container",data);
+		}
+	});
+</script>
+</div>
+{% endblock %}
+
+
+<!-- {% for obj in quest.answer_set.all %}
+	<div class='col-3'>
+		<h3 class="text-center"><span class="badge badge-success">Yes -- {{obj.yes}}</span></h3>
+	</div>
+	<div class='col-3'>
+		<h3 class="text-center"><span class="badge badge-danger">No -- {{obj.no}}</span></h3>
+	</div>
+{% endfor %} -->
